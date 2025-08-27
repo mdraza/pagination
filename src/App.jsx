@@ -5,8 +5,8 @@ import Product1 from "./components/Product1";
 const App = () => {
   return (
     <div>
-      {/* <Product /> */}
-      <Product1 />
+      <Product />
+      {/* <Product1 /> */}
     </div>
   );
 };

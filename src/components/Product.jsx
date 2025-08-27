@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-
-const PAGE_SIZE = 10;
+import Pagination1 from "./Pagination1";
+import { API_URL, PAGE_SIZE } from "../constants";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -15,9 +15,7 @@ const Product = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(
-          "https://dummyjson.com/products?limit=500"
-        );
+        const response = await fetch(API_URL);
 
         if (!response.ok)
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -25,7 +23,7 @@ const Product = () => {
         const data = await response.json();
         setProducts(data.products);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || "Something went wrong");
       } finally {
         setIsLoading(false);
       }
@@ -33,36 +31,35 @@ const Product = () => {
     fetchProducts();
   }, []);
 
-  const totalProducts = products.length;
-  const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+  const totalProducts = products?.length || 0;
+  const totalPages =
+    totalProducts > 0 ? Math.ceil(totalProducts / PAGE_SIZE) : 0;
 
   const start = currentPage * PAGE_SIZE;
   const end = start + PAGE_SIZE;
   console.log(start, end);
 
-  const handlePagination = (n) => {
-    setCurrentPage(n);
-  };
-
   if (isLoading) return <h2>Loading...</h2>;
   if (error) return <p>{error}</p>;
   return (
     <div className="main">
-      <div className="pagination-container">
-        {[...Array(totalPages).keys()].map((n) => (
-          <span
-            key={n}
-            className={`pagination ${n == currentPage ? "activePage" : ""}`}
-            onClick={() => handlePagination(n)}
-          >
-            {n}
-          </span>
-        ))}
-      </div>
+      {totalPages > 10 && (
+        <Pagination1
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
+      )}
       <div className="product-container">
-        {products.slice(start, end).map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {totalProducts > 0 ? (
+          products
+            ?.slice(start, end)
+            ?.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+        ) : (
+          <h2>No Products</h2>
+        )}
       </div>
     </div>
   );

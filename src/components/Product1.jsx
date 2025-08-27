@@ -1,16 +1,13 @@
 import { useState } from "react";
 import ProductCard1 from "./ProductCard1";
 import Pagination from "./Pagination";
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SIZE, API_URL } from "../constants";
 import { useFetch } from "../hooks/useFetch";
-import { API_URL } from "../constants";
 
 const Product1 = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const { data, isLoading, error, refetch } = useFetch(API_URL);
-
-  console.log(data);
 
   const totalProducts = data?.products?.length || 0;
   const noOfPages =

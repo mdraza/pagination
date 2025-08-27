@@ -1,11 +1,15 @@
-const Pagination = ({ currentPage, setCurrentPage, noOfPages }) => {
+import React from "react";
+
+const Pagination1 = ({ currentPage, setCurrentPage, totalPages }) => {
   const handlePagination = (n) => {
     setCurrentPage(n);
   };
-  const handlePrevPage = () => {
+
+  const handlePrev = () => {
     setCurrentPage((prev) => prev - 1);
   };
-  const handleNextPage = () => {
+
+  const handleNext = () => {
     setCurrentPage((prev) => prev + 1);
   };
 
@@ -14,22 +18,23 @@ const Pagination = ({ currentPage, setCurrentPage, noOfPages }) => {
       <button
         disabled={currentPage === 0}
         className="pagination"
-        onClick={handlePrevPage}
+        onClick={handlePrev}
       >
         ⬅️
       </button>
-      {[...Array(noOfPages).keys()].map((n) => (
+      {[...Array(totalPages).keys()].map((n) => (
         <button
-          className={`pagination ${n === currentPage ? "activePage" : ""}`}
+          key={n}
+          className={`pagination ${n == currentPage ? "activePage" : ""}`}
           onClick={() => handlePagination(n)}
         >
           {n + 1}
         </button>
       ))}
       <button
-        disabled={currentPage === noOfPages - 1}
+        disabled={currentPage === totalPages - 1}
         className="pagination"
-        onClick={handleNextPage}
+        onClick={handleNext}
       >
         ➡️
       </button>
@@ -37,4 +42,4 @@ const Pagination = ({ currentPage, setCurrentPage, noOfPages }) => {
   );
 };
 
-export default Pagination;
+export default Pagination1;
