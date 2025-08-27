@@ -19,6 +19,9 @@ body {
 .product img {
   width: 70%;
 }
+.heading {
+  text-align: center;
+}
 .pagination-container {
   margin: 10px 0;
 }

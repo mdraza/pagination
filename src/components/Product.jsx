@@ -43,13 +43,7 @@ const Product = () => {
   if (error) return <p>{error}</p>;
   return (
     <div className="main">
-      {totalPages > 10 && (
-        <Pagination1
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
-      )}
+      <h1 className="heading">Pagination</h1>
       <div className="product-container">
         {totalProducts > 0 ? (
           products
@@ -61,6 +55,13 @@ const Product = () => {
           <h2>No Products</h2>
         )}
       </div>
+      {totalPages > 10 && (
+        <Pagination1
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
+      )}
     </div>
   );
 };
